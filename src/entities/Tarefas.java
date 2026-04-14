@@ -5,14 +5,23 @@ public class Tarefas {
     private String nome;
     private String descricao;
     private boolean concluida;
+    private int id;
 
     //construtor
     public Tarefas() {}
 
+    public Tarefas(String nome, String descricao, int id) {
+        this.concluida = false;
+        this.descricao = descricao;
+        this.nome = nome;
+        this.id = id;
+    }
+
     public Tarefas(String nome, String descricao) {
         this.concluida = false;
-        this.descricao = this.descricao;
-        this.nome = this.nome;
+        this.descricao = descricao;
+        this.nome = nome;
+        this.id = 0; // Default id, can be set later if needed
     }
 
     //getters e setters
@@ -38,6 +47,13 @@ public class Tarefas {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+     public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     //metodos

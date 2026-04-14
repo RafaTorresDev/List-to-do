@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ListaTarefas lista = new ListaTarefas(new ArrayList<>());
-        Menu menu = new Menu();
+        Menu menu = new Menu(lista);
         Scanner sc = new Scanner(System.in);
 
         menu.iniciarMenu();

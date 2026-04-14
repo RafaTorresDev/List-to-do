@@ -29,6 +29,7 @@ public class Menu {
     }
 
     public void iniciarMenu() {
+        list.carregarArquivo();
         int opcao = -1;
 
         do{
@@ -44,37 +45,57 @@ public class Menu {
                     String descricao = sc.nextLine();
                     Tarefas novaTarefa = new Tarefas(nome, descricao);
                     list.adicionarTarefa(novaTarefa);
+                    list.salvarParaArquivo();
                     break;
                 case 2:
-                    System.out.println("Digite o nome da tarefa a ser removida:");
-                    String nomeRemover = sc.nextLine();
-                    Tarefas tarefaRemover = list.getListaTarefas().stream()
-                            .filter(t -> t.getNome().equalsIgnoreCase(nomeRemover))
-                            .findFirst()
-                            .orElse(null);
+                    System.out.println("Digite o ID da tarefa a ser removida:");
+                    int idRemover = sc.nextInt();
+
+                    Tarefas tarefaRemover = list.buscarPorId(idRemover);
+
                     if (tarefaRemover != null) {
                         list.removerTarefa(tarefaRemover);
                         System.out.println("Tarefa removida com sucesso!");
                     } else {
                         System.out.println("Tarefa não encontrada.");
                     }
+                    list.salvarParaArquivo();
+
                     break;
                 case 3:
-                    System.out.println("Digite o nome da tarefa a ser marcada como concluída:");
-                    String nomeConcluir = sc.nextLine();
-                    Tarefas tarefaConcluir = list.getListaTarefas().stream()
-                            .filter(t -> t.getNome().equalsIgnoreCase(nomeConcluir))
-                            .findFirst()
-                            .orElse(null);
+                    System.out.println("Digite o ID da tarefa a ser marcada como concluída:");
+                    int idConcluir = sc.nextInt();
+                    Tarefas tarefaConcluir = list.buscarPorId(idConcluir);
                     if (tarefaConcluir != null) {
                         list.marcarTarefaConcluida(tarefaConcluir);
                         System.out.println("Tarefa marcada como concluída!");
                     } else {
                         System.out.println("Tarefa não encontrada.");
                     }
+                    list.salvarParaArquivo();
                     break;
                 case 4:
-                    list.listarTarefas();
+                    System.out.println("Como deseja listar?");
+                    System.out.println("1. Todas");
+                    System.out.println("2. Apenas Pendentes");
+                    System.out.println("3. Apenas Concluídas");
+                    int subOpcao = sc.nextInt();
+                    sc.nextLine(); // Limpar buffer sempre!
+
+                    switch (subOpcao) {
+                        case 1:
+                            list.listarTarefas();
+                            break;
+                        case 2:
+                            list.listarTarefasPendentes();
+                            break;
+                        case 3:
+                            list.listarTarefasConcluidas();
+                            break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
                     break;
                 case 5:
                     System.out.println("Saindo do programa...");
